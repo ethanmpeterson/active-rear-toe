@@ -23,8 +23,8 @@
 #define AC_LOWER 927
 
 #define CENTER 954 // when wheels are straight
-
 #define DUTY 60 // DUTY cycle for the PWM PIN controlling the actuator set to 60 to move it slowly to prevent breaking anything
+#define TOLERANCE 1 // error in the actuator reading that will be excepted ex pos should be 935 stop at reading of 936 if tolerance is 1
 
 int reading = 0;
 int steerIn = 0;
@@ -79,4 +79,8 @@ void setPos(int pos) { // general function called in a loop to set actuator to d
     Serial.println(reading);
   }
   analogWrite(PWM, 0);
+}
+
+uint8_t approx(int val, int target, int error) { // returns true if val is within the error range
+  return abs(val - target) <= error;
 }
