@@ -54,7 +54,7 @@ void loop() {
 }
 
 void setAccelPos() {
-  while (reading != CENTER) {
+  while (!approx(reading, CENTER, TOLERANCE)) {
     if (reading < CENTER) {
       digitalWrite(DIRN, HIGH);
     } else {
@@ -68,7 +68,7 @@ void setAccelPos() {
 }
 
 void setPos(int pos) { // general function called in a loop to set actuator to desired position
-    while (reading != pos) {
+    while (!approx(reading, pos, TOLERANCE)) {
     if (reading < pos) {
       digitalWrite(DIRN, HIGH);
     } else {
