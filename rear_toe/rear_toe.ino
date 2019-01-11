@@ -1,7 +1,7 @@
 #include <EEPROM.h> // to record steering input data and measure against position where the motor should be
 
-#define POT_VCC 0
-#define POT_GND 0
+#define POT_VCC A5
+#define POT_GND A1
 
 // CAR SENSOR INPUT PINS
 #define POS_PIN A0 // mapped to wiper pin of potentiometer reporting actuator position
@@ -18,9 +18,13 @@
 
 #define BAUD 9600
 
-// LIMIT ACTUATOR READINGS
+// LIMIT ACTUATOR READINGS (MAX POSITION OF ACTUATOR IN EITHER DIRN)
 #define AC_UPPER 964
 #define AC_LOWER 927
+
+// POSITION MAXIMUMS of +- 3 degrees as per league regulations
+#define REG_UPPER 958
+#define REG_LOWER 948 
 
 #define CENTER 955 // when wheels are straight
 #define DUTY 255 // DUTY cycle for the PWM PIN controlling the actuator set to 60 to move it slowly to prevent breaking anything
@@ -31,26 +35,31 @@
   1 : Skid Pad (Wheels Turn Opposite to steering input)
   2 : Autocross / Endurance (Speed Influences Wheel behaviour)
 */
-#define DRIVE_MODE 0
+#define DRIVE_MODE 1
 
 int reading = 0;
 int steerIn = 0;
 
+struct dataStore {
+  int steerPos;
+  int actuatorPos; // actual position of actuator
+  int intendedPos; // where actuator should be for that steering value
+}; // will use this data to measure the amount of error in the system.
+// a potentiometer will act as a steering wheel.
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(DIRN, OUTPUT);
-  //digitalWrite(DIRN, HIGH);
   pinMode(PWM, OUTPUT);
   //analogWrite(PWM, 60);
   // Set up steering pot
   pinMode(A5, OUTPUT);
   pinMode(A1, OUTPUT);
-  digitalWrite(A5, HIGH);
-  digitalWrite(A1, LOW);
+  digitalWrite(POT_VCC, HIGH);
+  digitalWrite(POT_GND, LOW);
   // set up actuator position reporting:
   Serial.begin(BAUD);
-  setAccelPos();
+  setAccelPos(); // re orient to center
 }
 
 void loop() {
@@ -62,15 +71,16 @@ void loop() {
 
   // Update Rear Wheels
   if (DRIVE_MODE == 0) {
-    //setPos(CENTER);
+    setPos(CENTER);
   } else if (DRIVE_MODE == 1) {
-    
+    setPos(948);
+    //int actPos = map()
   }
   
   // record actuator position
-  //Serial.print("ACTUATOR: ");
-  //Serial.println(analogRead(POS_PIN));
-  Serial.println(steerIn);
+  Serial.print("ACTUATOR: ");
+  Serial.println(analogRead(POS_PIN));
+  //Serial.println(steerIn);
 }
 
 void setAccelPos() {
