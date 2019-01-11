@@ -73,8 +73,8 @@ void loop() {
   if (DRIVE_MODE == 0) {
     setPos(CENTER);
   } else if (DRIVE_MODE == 1) {
-    setPos(948);
-    //int actPos = map()
+    int actPos = map(steerIn, LOWER, UPPER, REG_LOWER, REG_UPPER);
+    setPos(actPos);
   }
   
   // record actuator position
