@@ -29,6 +29,8 @@
 #define CENTER 955 // when wheels are straight
 #define DUTY 255 // DUTY cycle for the PWM PIN controlling the actuator set to 60 to move it slowly to prevent breaking anything
 #define TOLERANCE 1 // error in the actuator reading that will be excepted ex pos should be 935 stop at reading of 936 if tolerance is 1
+
+#define TOTAL_ENTRIES 170 // total number of EEPROM entries before running out of memory
 /*
   DRIVE_MODE
   0 : Accel Mode (Wheels stay straight)
@@ -40,6 +42,7 @@
 int reading = 0;
 int steerIn = 0;
 
+int addr = 0; // starting EEPROM write address.
 struct dataStore {
   int steerPos;
   int actuatorPos; // actual position of actuator
@@ -59,12 +62,29 @@ void setup() {
   digitalWrite(POT_GND, LOW);
   // set up actuator position reporting:
   Serial.begin(BAUD);
+  Serial.println(sizeof(dataStore));
   setAccelPos(); // re orient to center
 }
-
+int actPos = 0;
+int count = 0;
 void loop() {
   // put your main code here, to run repeatedly:
   //setAccelMode();
+
+  // Collect Data
+  if (count < TOTAL_ENTRIES) {
+    dataStore store = {
+      steerIn,
+      analogRead(POS_PIN),
+      actPos
+    };
+    EEPROM.put(addr, store);
+    addr += sizeof(dataStore);
+    count++;
+  } else {
+    Serial.println("DATA RECORD COMPLETE");
+  }
+  
   reading = analogRead(POS_PIN);
   steerIn = constrain(analogRead(STEER_PIN), LOWER, UPPER);
   uint8_t brakes = digitalRead(BRAKE_PIN);
@@ -73,14 +93,13 @@ void loop() {
   if (DRIVE_MODE == 0) {
     setPos(CENTER);
   } else if (DRIVE_MODE == 1) {
-    int actPos = map(steerIn, LOWER, UPPER, REG_LOWER, REG_UPPER);
+    actPos = map(steerIn, LOWER, UPPER, REG_LOWER, REG_UPPER);
     setPos(actPos);
   }
   
   // record actuator position
-  Serial.print("ACTUATOR: ");
-  Serial.println(analogRead(POS_PIN));
-  //Serial.println(steerIn);
+  //Serial.print("ACTUATOR: ");
+  //Serial.println(analogRead(POS_PIN));
 }
 
 void setAccelPos() {
@@ -92,7 +111,7 @@ void setAccelPos() {
     }
     analogWrite(PWM, 60);
     reading = analogRead(POS_PIN);
-    Serial.println(reading);
+    //Serial.println(reading);
   }
   analogWrite(PWM, 0);
 }

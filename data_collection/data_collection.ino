@@ -1,5 +1,7 @@
 #include <EEPROM.h>
 
+#define TOTAL_ENTRIES 170
+
 struct dataStore {
   int steerPos;
   int actuatorPos; // actual position of actuator
@@ -9,7 +11,19 @@ struct dataStore {
 
 void setup() {
   // put your setup code here, to run once:
-
+  Serial.begin(9600);
+  for (int i = 0; i < TOTAL_ENTRIES; i++) {
+    dataStore readIn;
+    int addr = i * sizeof(dataStore);
+    EEPROM.get(addr, readIn);
+    // Format into text which can be copied into seperate file and parsed for analysis
+    Serial.print(readIn.steerPos);
+    Serial.print(",");
+    Serial.print(readIn.actuatorPos);
+    Serial.print(",");
+    Serial.print(readIn.intendedPos);
+    Serial.println("");
+  }
 }
 
 void loop() {
