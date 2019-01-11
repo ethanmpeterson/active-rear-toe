@@ -5,7 +5,7 @@
 
 // CAR SENSOR INPUT PINS
 #define POS_PIN A0 // mapped to wiper pin of potentiometer reporting actuator position
-#define STEER_PIN A1 // voltage between 0.5 - 4.5V
+#define STEER_PIN A3 // voltage between 0.5 - 4.5V
 #define BRAKE_PIN 12
 
 #define DIRN 8
@@ -22,9 +22,16 @@
 #define AC_UPPER 964
 #define AC_LOWER 927
 
-#define CENTER 954 // when wheels are straight
-#define DUTY 60 // DUTY cycle for the PWM PIN controlling the actuator set to 60 to move it slowly to prevent breaking anything
+#define CENTER 955 // when wheels are straight
+#define DUTY 255 // DUTY cycle for the PWM PIN controlling the actuator set to 60 to move it slowly to prevent breaking anything
 #define TOLERANCE 1 // error in the actuator reading that will be excepted ex pos should be 935 stop at reading of 936 if tolerance is 1
+/*
+  DRIVE_MODE
+  0 : Accel Mode (Wheels stay straight)
+  1 : Skid Pad (Wheels Turn Opposite to steering input)
+  2 : Autocross / Endurance (Speed Influences Wheel behaviour)
+*/
+#define DRIVE_MODE 0
 
 int reading = 0;
 int steerIn = 0;
@@ -36,6 +43,11 @@ void setup() {
   //digitalWrite(DIRN, HIGH);
   pinMode(PWM, OUTPUT);
   //analogWrite(PWM, 60);
+  // Set up steering pot
+  pinMode(A5, OUTPUT);
+  pinMode(A1, OUTPUT);
+  digitalWrite(A5, HIGH);
+  digitalWrite(A1, LOW);
   // set up actuator position reporting:
   Serial.begin(BAUD);
   setAccelPos();
@@ -45,12 +57,20 @@ void loop() {
   // put your main code here, to run repeatedly:
   //setAccelMode();
   reading = analogRead(POS_PIN);
-  setPos(935);
   steerIn = constrain(analogRead(STEER_PIN), LOWER, UPPER);
   uint8_t brakes = digitalRead(BRAKE_PIN);
+
+  // Update Rear Wheels
+  if (DRIVE_MODE == 0) {
+    //setPos(CENTER);
+  } else if (DRIVE_MODE == 1) {
+    
+  }
+  
   // record actuator position
-  Serial.print("ACTUATOR: ");
-  Serial.println(analogRead(POS_PIN));
+  //Serial.print("ACTUATOR: ");
+  //Serial.println(analogRead(POS_PIN));
+  Serial.println(steerIn);
 }
 
 void setAccelPos() {
