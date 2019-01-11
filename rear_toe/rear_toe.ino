@@ -23,8 +23,8 @@
 #define AC_LOWER 927
 
 // POSITION MAXIMUMS of +- 3 degrees as per league regulations
-#define REG_UPPER 958
-#define REG_LOWER 948 
+#define REG_UPPER 960
+#define REG_LOWER 945 
 
 #define CENTER 955 // when wheels are straight
 #define DUTY 255 // DUTY cycle for the PWM PIN controlling the actuator set to 60 to move it slowly to prevent breaking anything
