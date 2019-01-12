@@ -26,5 +26,11 @@ def parseLine(string):
     for i in range(0, len(parsed)):
         parsed[i] = int(parsed[i])
     print(parsed)
+    data.append({
+        "steering" : parsed[0],
+        "actuator" : parsed[1],
+        "intended" : parsed[2]
+    })
 parseLine(testString)
+print(data)
 exit()
