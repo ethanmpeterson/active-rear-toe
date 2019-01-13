@@ -4,6 +4,11 @@
 # Take Comma seperated actuator data and run analysis on it.
 
 import subprocess
+import sys
+import statistics
+import json
+import csv
+
 
 infile = open("data.txt", "r")
 
@@ -29,14 +34,27 @@ for i, line in enumerate(infile):
         parseLine(line)
 
 # Process Data
-
-
 total = 0
+diffs = []
 for i in data:
-    total = total + abs(i['actuator'] - i['intended'])
-    pass
+    currentDiff = abs(i['actuator'] - i['intended'])
+    total = total + currentDiff
+    diffs.append(currentDiff)
+
+
 avg = total / len(data)
 # Display Results
-print("Average Difference Between Actuator Pos and Intended Pos is: " + str(avg))
+print("Average Diff: " + str(avg))
+print("Standard Dev: " + str(statistics.stdev(diffs)))
+
+# File Output
+
+# Export as csv when the system arg flag is set
+if len(sys.argv > 1) and str(sys.argv[1] == 'csv'):
+    csvFile = open('output.csv', 'w')
+    with csvFile:
+        writer = csv.writer(csvFile, dialect='excel')
+        writer.writerows(data)
+
 
 exit()
