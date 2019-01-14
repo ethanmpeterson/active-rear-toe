@@ -50,10 +50,13 @@ print("Standard Dev: " + str(statistics.stdev(diffs)))
 # File Output
 
 # Export as csv when the system arg flag is set
-if len(sys.argv > 1) and str(sys.argv[1] == 'csv'):
+if len(sys.argv) > 1 and str(sys.argv[1] == 'csv'):
     csvFile = open('output.csv', 'w')
     with csvFile:
-        writer = csv.writer(csvFile, dialect='excel')
+        fields = ['steering', 'actuator', 'intended']
+
+        writer = csv.DictWriter(csvFile, fieldnames=fields)
+        writer.writeheader()
         writer.writerows(data)
 
 
