@@ -60,4 +60,6 @@ if len(sys.argv) > 1 and str(sys.argv[1] == 'csv'):
         writer.writerows(data)
 
 
+
+
 exit()
