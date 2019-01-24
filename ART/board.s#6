@@ -1166,6 +1166,11 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 <pinref part="GND3" gate="1" pin="GND"/>
 <wire x1="5.08" y1="17.78" x2="12.7" y2="17.78" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="6"/>
+<junction x="99.06" y="43.18"/>
+<label x="101.6" y="43.18" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="VCC" class="0">
 <segment>
@@ -1186,35 +1191,10 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 <wire x1="5.08" y1="68.58" x2="12.7" y2="68.58" width="0.1524" layer="91"/>
 <junction x="5.08" y="71.12"/>
 </segment>
-</net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="1"/>
-<junction x="83.82" y="48.26"/>
-</segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="3"/>
-<junction x="83.82" y="45.72"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="6"/>
-<junction x="99.06" y="43.18"/>
-</segment>
-</net>
-<net name="N$5" class="0">
-<segment>
-<pinref part="ISP_HEADER" gate="G$1" pin="4"/>
-<junction x="99.06" y="45.72"/>
-</segment>
-</net>
-<net name="N$6" class="0">
 <segment>
 <pinref part="ISP_HEADER" gate="G$1" pin="2"/>
 <junction x="99.06" y="48.26"/>
+<label x="101.6" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -1226,25 +1206,43 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 <segment>
 <pinref part="ISP_HEADER" gate="G$1" pin="5"/>
 <junction x="83.82" y="43.18"/>
-<label x="76.2" y="40.64" size="1.778" layer="95"/>
+<label x="73.66" y="43.18" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$3" class="0">
+<net name="SCK" class="0">
 <segment>
 <pinref part="U1" gate="U1" pin="PB5(SCK)"/>
 <junction x="55.88" y="17.78"/>
+<label x="60.96" y="17.78" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="3"/>
+<junction x="83.82" y="45.72"/>
+<label x="76.2" y="45.72" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$7" class="0">
+<net name="MISO" class="0">
 <segment>
 <pinref part="U1" gate="U1" pin="PB4(MISO)"/>
 <junction x="55.88" y="20.32"/>
+<label x="60.96" y="20.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="1"/>
+<junction x="83.82" y="48.26"/>
+<label x="76.2" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$8" class="0">
+<net name="MOSI" class="0">
 <segment>
 <pinref part="U1" gate="U1" pin="PB3(MOSI/OC2)"/>
 <junction x="55.88" y="22.86"/>
+<label x="60.96" y="22.86" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="4"/>
+<junction x="99.06" y="45.72"/>
+<label x="101.6" y="45.72" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>

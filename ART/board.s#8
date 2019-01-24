@@ -1131,8 +1131,8 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 <attribute name="NAME" x="4.064" y="96.901" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="4.064" y="91.821" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="GND2" gate="1" x="2.54" y="81.28" smashed="yes">
-<attribute name="VALUE" x="0" y="78.74" size="1.778" layer="96"/>
+<instance part="GND2" gate="1" x="2.54" y="86.36" smashed="yes">
+<attribute name="VALUE" x="0" y="83.82" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -1151,7 +1151,7 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 <segment>
 <pinref part="C1" gate="G$1" pin="2"/>
 <pinref part="GND2" gate="1" pin="GND"/>
-<wire x1="2.54" y1="91.44" x2="2.54" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="2.54" y1="91.44" x2="2.54" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="VCC" class="0">
@@ -1163,6 +1163,42 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="2.54" y1="104.14" x2="2.54" y2="99.06" width="0.1524" layer="91"/>
 <junction x="2.54" y="104.14"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="1"/>
+<junction x="83.82" y="48.26"/>
+</segment>
+</net>
+<net name="N$2" class="0">
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="3"/>
+<junction x="83.82" y="45.72"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="5"/>
+<junction x="83.82" y="43.18"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="6"/>
+<junction x="99.06" y="43.18"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="4"/>
+<junction x="99.06" y="45.72"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="ISP_HEADER" gate="G$1" pin="2"/>
+<junction x="99.06" y="48.26"/>
 </segment>
 </net>
 </nets>
