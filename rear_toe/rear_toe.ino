@@ -1,5 +1,9 @@
 #include <EEPROM.h> // to record steering input data and measure against position where the motor should be
 
+// AVR Libs for Timer Interrupts
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
 #define POT_VCC A5
 #define POT_GND A1
 
@@ -40,7 +44,7 @@
 #define DRIVE_MODE 1
 
 int reading = 0;
-int steerIn = 0;
+volatile int steerIn = 0;
 
 int addr = 0; // starting EEPROM write address.
 struct dataStore {
@@ -50,7 +54,20 @@ struct dataStore {
 }; // will use this data to measure the amount of error in the system.
 // a potentiometer will act as a steering wheel.
 
+void timerInit() {
+  cli(); // disable interrupts to do config
+  TCCR1A = 0;
+  TCCR1B = 0; // Set timer counter registers to 0
+  
+  TIMSK1 = (1 << TOIE1); // Enable the timer overflow interrupt
+  TCCR1B |= (1 << CS10); // set CS10 bit meaning timer will tick at clock speed meaning overflow after 65535 clock cycles
+
+  sei();
+}
+
 void setup() {
+  //timerInit();
+  //cli();
   // put your setup code here, to run once:
   pinMode(DIRN, OUTPUT);
   pinMode(PWM, OUTPUT);
@@ -65,7 +82,25 @@ void setup() {
   Serial.println(sizeof(dataStore));
   setAccelPos(); // re orient to center
 }
-int actPos = 0;
+
+volatile int actPos = 0;
+
+// ISR
+ISR(TIMER1_OVF_vect) {
+  if (!approx(reading, actPos, TOLERANCE)) {
+    if (reading < actPos) {
+      digitalWrite(DIRN, HIGH);
+    } else {
+      digitalWrite(DIRN, LOW);
+    }
+    analogWrite(PWM, 60);
+    reading = analogRead(POS_PIN);
+    Serial.println(reading);
+  } else {
+    //analogWrite(PWM, 0);
+  }
+}
+
 int count = 0;
 void loop() {
   // put your main code here, to run repeatedly:
